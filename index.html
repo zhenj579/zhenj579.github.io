@@ -3,23 +3,121 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>temp name</title>
+        <title>Is my country happy?</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="index.css">
     </head>
     <body>
-        <div id="navbar-container">
-            <ul id="navbar-list">
-                <a href="#" class="navbar-link"><li class="navbar-element">test1</li></a>
-                <a href="#" class="navbar-link"><li class="navbar-element">test1</li></a>
-                <a href="#" class="navbar-link"><li class="navbar-element">test1</li></a>
-                <a href="#" class="navbar-link"><li class="navbar-element">test1</li></a>
-            </ul>
-        </div>
-        <div id="introduction-container">
-            <h1 id="name">John Zhen</h1>
-        </div>
-        <!-- <script src="" async defer></script> -->
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <h1> <u>Is My Country Happy?</u> </h1>
+        <img src='imgs\project.gif'>
+        <h2> <u>Overview</u> </h2>
+        <p> While browsing Kaggle to look for datasets, I stumbled upon this dataset:</p>
+        <img id='kagglebanner' src='imgs\kagglebanner.png'>
+        <p> The dataset revolves around a country and its happiness score and I was intrigued by how exactly
+            <br>
+            this happiness score is calculated. Happiness is a very subjective topic and what makes a
+            <br>
+            person happy varies from person to person, so I took a look at the dataset to see what
+            it contained.
+            <br>
+            Before I go into investigating the data, I hypothesized that Healthy life expectancy is definitely going to be a big
+            <br>
+            factor in a country's happiness because if the average population of a country lives for a very long time,
+            <br>
+            naturally we can assume that they have been provided the resources to live long and happy. In order to verify
+            <br>
+            this conclusion I will have to determine what variables are strongly correlated. We're going to use data from kaggle
+            <br>
+            and use pandas for processing the data, sklearn to build a model and make predictions, and matplotlib.pyplot for plots
+            <br>
+            and visualizations.
+        </p>
+        <h2> <u>Data</u> </h2>
+        <p>
+            The data collected was surveyed from people within the country and then when asked the specific attributes from the 
+            <br>
+            csv, people were told to rate that specific attribute on a scale of 0 to 10 where 10 is the best.
+            <br>
+            So after the dataset caught my eyes, I set up my environment and loaded the dataset of the world happiness
+            <br>
+            score from 2019 into pandas (link <a href='https://www.kaggle.com/unsdsn/world-happiness?select=2019.csv'>here</a>)
+            then I set the pandas settings to show all rows and cols and printed the dataframe, which gave me this:
+            <br>
+            <img src='imgs\df.png'>
+            <br>
+            This doesn't really tell us much about how these variables are related or if they even are related,
+            <br>
+            so let us put some data science skills to work.
+        </p>
+        <h2> <u> Mean </u> </h2>
+        <p>
+            Before we jump into figuring out how closely related variables are, lets take a look at the mean
+            <br>
+            of the dataset to get a taste out what our data is like. Running a quick df.mean() and looking
+            <br>
+            at the relevant fields we get:
+            <br>
+            <img src='imgs\mean.png'>
+            <br>
+            Looks like on average, these are the numbers expected of an average country.
+        </p>
+        <h2> <u> Correlation </u></h2>
+        <p>
+            The first thing I want to know is how closely related our variables are. I went on to find the correlation
+            <br>
+            coefficient of all the variables with respect to the country's happiness score. The correlation coefficients came out to be like this:
+            <br>
+            <img src='imgs\correlation.png'>
+            <br>
+            Score in this case is the happiness score, and here we can see that there are three variables/factors that are strongly
+            <br>
+            related to a country's happiness score. The factors that contribute most to a country's happiness score is: GDP per capita, social support, and healthy life expectancy.
+            <br>
+            Now that we know which variables are strongly related, we can use some visualizations to further investigate the trend of the data.
+        </p>
+        <h2> <u>Visualizations</u> </h2>
+        <p>
+            Here we want to do some plotting and see how our data looks like visually. Here are the three plots:
+            <br>
+            <div id='plot-div'>
+                <img src='plots\happiness_score_vs_gdp.png'>
+                <img src='plots\happiness_score_vs_healthy_life_expectancy.png'>
+                <img src='plots\happiness_score_vs_social_support.png'>
+            </div>
+            <br>
+            The plots above confirm that we do have a relatively strong positive correlation between the x and y variables.
+            <br>
+            From this we can conclude that GDP per capita, healthy life expectancy, and social support are all strongly positively associated
+            <br>
+            with each other. We also have some outliers that might affect our model's accuracy, but we can get rid of a few that are super far away
+            <br>
+            from the cluster of points to improve our model's accuracy. I chose to get rid of Somalia and Central African Republic as they had a GDP
+            <br>
+            of zero and GDP is the strongest factor in determining a country's happiness score.  
+        </p>
+        <h2> <u> Making Predictions (Using techniques) </u> </h2>
+        <p>
+            Now that we have all the observations and data we need to build a relatively accurate model, I went on ahead and created a linear regression
+            <br>
+            model and used sklearns train_test_split to split our dataset into a training set and a testing set. After doing some research, I opted to use 
+            <br>
+            a 80:20 train to test ratio. Using the x_test from train_test_split now we can see our predictions using our classifier's predict() function from sklearn's linear regression model:
+            <br>
+            <img src='imgs\predictions.png'>
+            <br>
+            This doesn't tell us much, so let us look at our model's accuracy instead by calling on our classifier's .score() function
+            <br>
+            <img src='imgs\model_accuracy.png'>
+            <br>
+            We have a model accuracy of about 75%, which is pretty good.
+        </p>
+        <h3><u>Citations</u></h3>
+        <ul>
+            <li>Professor Katherine's CSCI39542 Slides</li>
+            <li>Matplotlib documentation</li>
+            <li>Pandas documentation</li>
+        </ul>
     </body>
 </html>
